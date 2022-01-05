@@ -1,0 +1,29 @@
+.data {
+    display: none;
+}
+
+.g-signin2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+body {
+    background-color: #FFF1BD ;
+}
+
+.btn-custome {
+    background-color: #146356;
+    color: #FFF1BD;
+}
+
+.btn-kastem {
+    background-color: #A3DA8D;
+    color: #146356;
+}
+
+.text-kastem {
+    color: #F3C892;
+}

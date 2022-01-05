@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="444097777473-ohhniuav0ouiin6vj2qsepka9pj96omp.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <title>Komik</title>
+</head>
+<body>
+      <nav class="navbar navbar-expand-lg btn-custome navbar-light h-100 text-white p-2">
+        <div class="container-fluid">
+          <a class="navbar-brand text-white" href="#">Pendataan Komik</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto" data-onsuccess="onSignIn">
+                <div id="user"></div>
+              <button type="button" class="btn btn-danger ms-2" onclick="signOut();">SignOut</button>
+            </div>
+          </div>
+        </div>
+      </nav>    
+
+    <section>
+        <div class="container">
+            <form>
+              <div class="row">
+                  <div class="form-group my-3">
+                    <label for="idkomik" class="form-label">ID Komik</label>
+                    <input type="text" class="form-control" id="idkomik" placeholder="Masukan Id Komik">
+                  </div>
+                  <div class="form-group my-3">
+                    <label for="judulkomik" class="form-label">Judul Komik</label>
+                    <input type="text" class="form-control" id="judulkomik" placeholder="masukan Judul Komik">
+                  </div>
+                  <div class="form-group my-3">
+                    <label for="pengarang" class="form-label">Pengarang</label>
+                    <input type="text" class="form-control" id="pengarang" placeholder="masukan Pengarang">
+                  </div>
+                  <div class="form-group my-3">
+                    <label for="penerbit" class="form-label">Penerbit</label>
+                    <input type="text" class="form-control" id="penerbit" placeholder="masukan Penerbit">
+                  </div>
+                  <div class="form-group my-3">
+                    <label for="tahunterbit" class="form-label">Tahun Terbit</label>
+                    <input type="text" class="form-control" id="tahunterbit" placeholder="masukan Tahun Terbit">
+                  </div>
+                  <button type="button" class="btn btn-kastem ms-2 mt-4" onclick="return window.location.href='./data.html'">Back</button>
+                  <button type="button" class="btn btn-custome ms-2 mt-4" onclick="saveData();">Save Data</button>
+            </div>  
+            </form>
+            </div>
+        </div> 
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="Service.js"></script>
+    <script src="./index.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <script>
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        console.log(gapi.auth2);
+        auth2.signOut().then(function() {
+        alert("User signed out");
+        localStorage.removeItem("nama");
+        localStorage.removeItem("image");
+        localStorage.removeItem("email");
+        window.location.href="/";
+        })
+        .catch(error => {console.log(error)});
+    }
+
+    function onLoad(){
+        gapi.load("auth2", function(){
+            gapi.auth2.init();     
+        })
+    }
+
+    function saveData(){
+    var body = {
+      idkomik:$("#idkomik").val(),
+      judulkomik:$("#judulkomik").val(),
+      pengarang:$("#pengarang").val(),
+      penerbit:$("#penerbit").val(),
+      tahunterbit:$("#tahunterbit").val()
+    }
+    var json = JSON.stringify(body)
+    console.log(json)
+    axios({
+        method:"put",
+        url:url, 
+        data:json, 
+        headers:{ "Content-Type": "application/json" }
+    })
+    .then((result) => {
+        console.log("data berhasil disimpan")
+        window.location.href="/data.html"   
+    }).catch((err) => {
+        console.log(error)
+    });
+    }
+
+    function getData(){
+        var url = new URL($(location).attr("href"))
+        var params = url.searchParams.get("idkomik")
+        console.log(params)
+        axios.get(
+            `http://localhost:8080/data/komik/${params}`
+        ).then((result) => {
+            console.log(result)
+            $("#idkomik").val(result.data.idkomik);
+            $("#judulkomik").val(result.data.judulkomik);
+            $("#pengarang").val(result.data.pengarang);
+            $("#penerbit").val(result.data.penerbit);
+            $("#tahunterbit").val(result.data.tahunterbit)
+        }).catch((err) => {
+            console.log(error)
+        });
+    }
+
+    var url ="http://localhost:8080/data/komik";
+    getData()
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
