@@ -28,7 +28,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <a class="btn btn-kastem ms-2 mt-5" href="create.html">Masukkan Data</a>
+                    <a class="btn btn-kastem ms-2 mt-5" href="create.html">Input Data</a>
                     <table id="tbl" class="table table-striped">
                         <thead>
                             <tr>
@@ -76,7 +76,7 @@
     function del(idkomik){
         if (window.confirm("Apakah Anda Ingin Menghapus Data ?")===true) {
             axios.delete(`http://localhost:8080/data/komik/${idkomik}`).then((result) => {
-                alert("Hapus Data Berhasil")
+                alert("Data Berhasil diHapus")
                 window.location.href="/data.html"
             }).catch((err) => {
                 console.log(err)

@@ -15,7 +15,7 @@ function onLoad(){
 
 $("#user").ready(function () {
     var user = document.getElementById("user")
-    user.innerHTML = `<h5>Hai, ${localStorage.getItem("nama")}!</h5>`
+    user.innerHTML = `${localStorage.getItem("email")}<h5>Hai, ${localStorage.getItem("nama")}!</h5>`
 });
 
 $("#tbl").ready(function () {
