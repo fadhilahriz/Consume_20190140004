@@ -2,14 +2,6 @@
     display: none;
 }
 
-.g-signin2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-}
-
 body {
     background-color: #A3DA8D ;
 }
